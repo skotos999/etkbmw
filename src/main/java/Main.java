@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -13,36 +14,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class Main {
-
-	private static final String PATH = "c:\\Users\\skoto\\Desktop\\etk_bot\\";
-
-	public static void main(final String[] args) {
-		// System.setProperty("webdriver.chrome.driver", "d:\\!DEV_NEW\\jetbrains\\chromedriver.exe");
-		// final ChromeOptions options = new ChromeOptions();
-		// options.setBinary("c:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\");
-		// // options.addArguments("--start-maximized");
-		// options.addArguments("headless");
-		// options.addArguments("window-size=1920x1080");
-		// final WebDriver driver = new ChromeDriver(options);
-		//
-		// driver.get("https://www.etkbmw.com/");
-		//
-		// final By modelsLocator = By.xpath("//*[@class='thumbnails models']/li/a");
-		// final By mgGroupsLocator = By.xpath("//*[@class='thumbnail']");
-		// final By funcGroupsLocator = By.xpath("//*[@class='thumbnail hoverLegend']");
-		// final By partsBlockLocator = By.xpath("//*[contains(@class, 'partsBlock')]");
-		//
-		// final List<WebElement> cars = driver.findElements(modelsLocator);
-		// final LinkedHashMap<String, String> carLinks = getEuropeanCarLinks(cars, PATH);
-		//
-		// extractCarData(driver, mgGroupsLocator, funcGroupsLocator, partsBlockLocator, carLinks);
-	}
+class Main {
 
 	static void extractCarData(final WebDriver driver, final By mgGroupsLocator, final By funcGroupsLocator, final By partsBlockLocator,
 			final LinkedHashMap<String, String> carLinks) {
 		carLinks.forEach((k, v) -> {
-			System.out.println("Extracting - " + k);
+			System.out.println(Instant.now() + " - Started - " + k);
 			driver.navigate().to(k);
 			final List<WebElement> mgGroups = driver.findElements(mgGroupsLocator);
 			final LinkedHashMap<String, String> mgGroupLinks = saveImages(v, mgGroups, false);
@@ -82,7 +59,7 @@ public class Main {
 					}
 				});
 			});
-			System.out.println("Finished - " + k);
+			System.out.println(Instant.now() + " - Finished - " + k);
 		});
 	}
 
@@ -151,16 +128,16 @@ public class Main {
 		driver.navigate().back();
 	}
 
-	private static String createFolder(final String path, final String subdir) {
-		final File dir = new File(path + "\\" + subdir);
+	private static String createFolder(final String path, final String subDir) {
+		final File dir = new File(path + "\\" + subDir);
 		if (!(dir.exists())) {
 			dir.mkdir();
 		}
 		return dir.getPath();
 	}
 
-	private static String createFolders(final String path, final String subdir) {
-		final File dir = new File(path + "\\" + subdir);
+	private static String createFolders(final String path, final String subDir) {
+		final File dir = new File(path + "\\" + subDir);
 		if (!(dir.exists())) {
 			dir.mkdirs();
 		}
